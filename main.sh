@@ -20,6 +20,9 @@ fi
 if [[ $1 == https://* ]]
 then
     wget -nc -P "/tmp" "${LINK}"
+else
+    echo "wrong parameter";
+    exit 1;
 fi
 
 if ! [ -d "$DESTINATION" ]; then
