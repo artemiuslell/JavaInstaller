@@ -1,31 +1,39 @@
 #!/bin/bash
 
-LINK=$1;
-NAME_FOR_JAVA=$2;
-JAVA_TAR_ARCHIV="/tmp"/$(basename "$LINK");
-DESTINATION="/opt/$NAME_FOR_JAVA";
-
-# Make sure only root can run this script
-if [[ $EUID -ne 0 ]]; then
-    echo "This script must be run as root" 1>&2
-    exit 1
-fi
-
-# Make sure two parameter is given
-if [ $# -ne 2 ]; then
-    echo "Please enter two parameters"
-    exit 1
-fi
-
-if [[ $1 == https://* ]]
+if [[ $1 == https:'//'* ]]
 then
-    wget -nc -P "/tmp" "${LINK}"
+    LINK=$1;
 else
     echo "wrong parameter";
     exit 1;
 fi
 
-if ! [ -d "$DESTINATION" ]; then
+# Make sure only root can run this script
+if [[ $EUID -ne 0 ]]
+then
+    echo "This script must be run as root" 1>&2
+    exit 1
+fi
+
+# Make sure two parameter is given
+if [ $# -ne 2 ]
+then
+    echo "Please enter two parameters"
+    exit 1
+fi
+
+NAME_FOR_JAVA=$2;
+JAVA_TAR_ARCHIV="/tmp"/$(basename "$LINK");
+DESTINATION="/opt/$NAME_FOR_JAVA";
+
+function download () {
+    wget -nc -P "/tmp" "${LINK}"
+}
+
+download;
+
+if ! [ -d "$DESTINATION" ]
+then
     mkdir "$DESTINATION";
 fi
 
