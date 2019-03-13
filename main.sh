@@ -1,13 +1,5 @@
 #!/bin/bash
 
-if [[ $1 == https:'//'* ]]
-then
-    LINK=$1;
-else
-    echo "wrong parameter";
-    exit 1;
-fi
-
 # Make sure only root can run this script
 if [[ $EUID -ne 0 ]]
 then
@@ -20,6 +12,14 @@ if [ $# -ne 2 ]
 then
     echo "Please enter two parameters"
     exit 1
+fi
+
+if [[ $1 == https:'//'* ]]
+then
+    LINK=$1;
+else
+    echo "wrong parameter";
+    exit 1;
 fi
 
 NAME_FOR_JAVA=$2;
