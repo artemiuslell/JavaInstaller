@@ -26,11 +26,7 @@ NAME_FOR_JAVA=$2;
 JAVA_TAR_ARCHIV="/tmp"/$(basename "$LINK");
 DESTINATION="/opt/$NAME_FOR_JAVA";
 
-function download () {
-    wget -nc -P "/tmp" "${LINK}"
-}
-
-download;
+wget -nc -P "/tmp" "${LINK}";
 
 if ! [ -d "$DESTINATION" ]
 then
