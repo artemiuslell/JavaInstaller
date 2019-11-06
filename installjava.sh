@@ -24,9 +24,6 @@ CONFIG_REGEX='[A-Za-z0-9]=https://*'
 readarray configLines <$CONFIG_FILE
 options=("${configLines[@]:1}") #removed the 1st element cause of comment
 
-# new associative array for URL to Java name map
-declare -A NAME_TO_URL
-
 # validate file lines
 for ((i = 0; i < ${#options[@]}; i++)); do
   if ! [[ ${options[$i]} =~ $CONFIG_REGEX ]]; then
@@ -34,6 +31,9 @@ for ((i = 0; i < ${#options[@]}; i++)); do
     exit 1
   fi
 done
+
+# new associative array for URL to Java name map
+declare -A NAME_TO_URL
 
 MENU_SIZE=${#options[@]}
 MENU_ARRAY_SIZE=$((MENU_SIZE * 2))
@@ -43,7 +43,7 @@ incr=1
 indexOfOptionsArray=0
 
 # too complicated to comment this part of code below...
-for ((i = 0; $((i < MENU_ARRAY_SIZE)); i++)); do
+for ((i = 0; i < MENU_ARRAY_SIZE; i++)); do
   if ! [[ $((incr % 2)) == 0 ]]; then
     key=${options[$indexOfOptionsArray]//=http*/}
     value=$(sed 's/^.*https/https/' <<<"${options[$indexOfOptionsArray]}")
